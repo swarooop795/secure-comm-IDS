@@ -1,0 +1,79 @@
+How It’s Useful:
+Secure Communication:
+
+->The TCP server listens on port 9999 and allows encrypted message exchange between a 
+client and a server using AES encryption (Fernet).
+->This helps in preventing unauthorized access to transmitted data.
+
+Intrusion Detection:
+
+->The packet sniffer (using scapy.sniff()) captures network packets and logs them for analysis.
+->The ARP Spoof Detector checks for ARP poisoning attacks, which are commonly used in
+Man-in-the-Middle (MitM) attacks.
+
+Why Flask-SocketIO Instead of a Normal Flask Server?
+
+->Flask-SocketIO enables real-time communication using WebSockets, which is crucial for logging security 
+alerts, packet sniffing results, and live data updates.
+
+step 1:Import Required Modules:
+socket → Handles network communication.
+threading → Enables multi-threading for running multiple tasks simultaneously.
+os → Manages file operations (for encryption key storage).
+scapy → Used for network packet sniffing and ARP spoof detection.
+cryptography.fernet → Implements AES-based symmetric encryption.
+Flask & Flask-SocketIO → Create a web interface and enable real-time updates.
+
+step 2:Initialize Flask App & WebSocket
+Creates a Flask web application.
+SocketIO allows real-time communication between the server and the web interface.
+
+step 3:Encryption Setup
+Checks if an encryption key already exists (key.key).
+If not, it generates a new key, saves it to a file, and loads it.
+This key is used to encrypt and decrypt messages.
+
+step 4:Encryption & Decryption Functions
+encrypt_message() → Encrypts a plaintext message.
+decrypt_message() → Decrypts an encrypted message, handling errors if decryption fails.
+
+step 5:Secure Server Implementation
+Creates a server socket bound to port 9999.
+Listens for connections from clients.
+Receives encrypted messages, decrypts them, and logs the details.
+Sends back an acknowledgment message (also encrypted).
+
+step 6:Secure Client Implementation
+Connects to the server at port 9999.
+Takes user input, encrypts it, and sends it to the server.
+Receives an encrypted response, decrypts it, and logs the details.
+
+step 7: Packet Sniffer Implementation
+Sniffs 10 packets on the network.
+Logs a summary of each captured packet.
+Useful for detecting suspicious network activity.
+
+step 8:ARP Spoof Detection(Address Resolution Protocol.)
+Address Resolution Protocol:It is used to map an IP address within a local network (LAN).
+Monitors ARP packets to detect spoofing attempts.
+If an IP address sends conflicting ARP responses, it logs an alert.
+
+127.0.0.1 is the loopback address, commonly known as localhost.
+
+Key Points of about 127.0.0.1 IP:
+It refers to the local machine (Our own computer).
+Any network request sent to 127.0.0.1 never leaves Our device.
+Used for testing servers and network applications locally.
+
+step 9:HTML Web Interface
+A web-based UI to start different services.
+Uses Socket.IO for real-time updates.
+Displays logs for server, client, sniffer, and ARP detector.
+
+step 10:Flask Routes
+Routes allow starting each function via the web interface.
+Threading ensures they run in the background.
+
+
+
+

@@ -1,0 +1,92 @@
+This Python program implements a secure communication system with intrusion detection using Flask 
+for a web interface, Flask-SocketIO for real-time logging, and various networking and cryptographic 
+modules for security. Here’s a step-by-step breakdown of how this works:
+
+server used:
+->Flask-SocketIO Server: This is an event-driven server built on top of Flask using WebSockets.
+
+127.0.0.1 is the loopback address, commonly known as localhost.
+
+Key Points of about 127.0.0.1 IP:
+It refers to the local machine (Our own computer).
+Any network request sent to 127.0.0.1 never leaves Our device.
+Used for testing servers and network applications locally.
+
+
+Core Functionalities:
+Secure Communication:
+->Uses AES encryption (Fernet) to encrypt and decrypt messages between a client and server.
+->The server listens for incoming messages on port 9999.
+->The client connects to the server, sends encrypted messages, and receives encrypted responses.
+
+Intrusion Detection:
+->Packet Sniffer: Monitors network packets and checks for any suspicious MAC addresses.
+->ARP Spoof Detector: Checks ARP packets for known fake IPs and duplicate IPs to detect potential 
+spoofing attacks.
+
+Web-Based Monitoring:
+->Uses Flask and Flask-SocketIO to provide a real-time logging dashboard.
+->Users can start the server, client, packet sniffer, and ARP detector using simple web buttons.
+
+Server and Client Communication:
+->The server starts and listens for incoming connections.
+->A client connects, encrypts a message, and sends it.
+->The server decrypts the message, logs it, and responds with an encrypted acknowledgment.
+
+Packet Sniffer:
+->Captures network packets using Scapy.
+->Compares packet sources against a list of fake MAC addresses.
+->Alerts if any suspicious packets are detected.
+
+ARP(Address Resolution Protocol) Spoof Detection:
+->Captures ARP packets in the network.
+->Compares the IP against a list of known fake IPs.
+->Detects duplicate IPs, which could indicate an ARP spoofing attack.
+
+Web Interface:
+->Provides a real-time log display of all events.
+->Users can trigger different functionalities via buttons on the UI.
+->Logs messages for encrypted/decrypted communication and intrusion alerts.
+
+Purpose of our project:
+
+1. Secure Communication
+Encryption & Decryption (AES-based using cryptography.fernet)
+->Ensures that messages exchanged between the client and server remain confidential.
+
+->Prevents eavesdropping by encrypting messages before transmission.
+
+->Uses a key stored in key.key for security.
+
+Client-Server Model (TCP-based communication using socket)
+
+->A server listens for incoming connections.
+
+->A client connects to the server and sends encrypted messages.
+
+->The server decrypts the messages, logs them, and responds with an encrypted acknowledgment.
+
+Intrusion Detection System (IDS)
+Packet Sniffing (scapy)
+
+->Monitors network traffic for suspicious packets.(Sniffs 10 packets on the network 
+using scapy.sniff(prn=process_packet, store=False, count=10).)
+
+->Identifies malicious MAC addresses (predefined fake MACs.
+ eg:fake_mac_addresses = ["00:11:22:33:44:55", "66:77:88:99:AA:BB"]).
+
+->Alerts the user when suspicious activity is detected.
+
+ARP(Address Resolution Protocol) Spoofing Detection
+
+->Monitors ARP traffic to detect if an attacker is impersonating another device.
+
+->Uses a predefined fake IP list to flag spoofing attempts.
+
+->Detects duplicate IPs, which is a sign of ARP poisoning attacks.
+
+Benifits of our project
+->Data Security: Protects messages from unauthorized access.
+->Intrusion Prevention: Identifies malicious network activity in real-time.
+->Network Monitoring: Helps detect spoofing attacks (ARP[Address Resolution Protocol] spoofing, fake MACs).
+->User Awareness: Provides live logs via a Flask web interface with Socket.IO for real-time monitoring.
